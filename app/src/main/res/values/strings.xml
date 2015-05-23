@@ -3,4 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- メッセージ用 -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
