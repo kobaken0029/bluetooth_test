@@ -2,6 +2,7 @@ package jp.co.koba.bluetoothtest.fragments;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -10,12 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import jp.co.koba.bluetoothtest.R;
+import jp.co.koba.bluetoothtest.activities.DeviceListActivity;
 import jp.co.koba.bluetoothtest.activities.MainActivity;
 import jp.co.koba.bluetoothtest.utils.UiUtils;
 
 public class MainFragment extends Fragment {
     private Activity activity;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class MainFragment extends Fragment {
 
             if (bt.isEnabled()) {
                 UiUtils.showToast(activity.getApplicationContext(), "ONになってます。");
+                startActivity(new Intent(activity, DeviceListActivity.class));
+                activity.finish();
             } else {
                 if (activity instanceof MainActivity) {
                     ((MainActivity) activity).move();
