@@ -13,10 +13,16 @@ import android.widget.ListView;
 
 import java.util.Set;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import jp.co.koba.bluetoothtest.R;
 import jp.co.koba.bluetoothtest.activities.DeviceListActivity;
 
 public class DeviceListFragment extends Fragment {
+
+    @InjectView(R.id.paired_device_list)
+    ListView deviceListView;
+
     private DeviceListActivity activity;
 
     @Override
@@ -27,7 +33,9 @@ public class DeviceListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_device_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_device_list, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
     @Override
@@ -41,8 +49,7 @@ public class DeviceListFragment extends Fragment {
             for (BluetoothDevice device : pairedDevices) {
                 pairedDeviceAdapter.add(device.getName() + "\n" + device.getAddress());
             }
-            ListView deviceList = (ListView) activity.findViewById(R.id.paired_device_list);
-            deviceList.setAdapter(pairedDeviceAdapter);
+            deviceListView.setAdapter(pairedDeviceAdapter);
         }
     }
 

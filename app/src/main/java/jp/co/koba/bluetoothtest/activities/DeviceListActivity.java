@@ -15,22 +15,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import jp.co.koba.bluetoothtest.R;
 
 public class DeviceListActivity extends ActionBarActivity {
+
+    @InjectView(R.id.non_paired_device_list)
+    ListView nonPairedListView;
+
     public BluetoothAdapter mBtAdapter;
     private ArrayAdapter nonPairedDeviceAdapter;
-    Map<String, BluetoothDevice> deviceList;
+    private Set<String> nonPairedDevices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
+        ButterKnife.inject(this);
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         nonPairedDeviceAdapter = new ArrayAdapter(this, R.layout.list_item);
-        deviceList = new HashMap<>();
+        nonPairedDevices = new HashSet<>();
     }
 
     @Override
@@ -71,7 +80,6 @@ public class DeviceListActivity extends ActionBarActivity {
             String action = intent.getAction();
             String deviceName = null;
             BluetoothDevice foundDevice;
-            ListView nonPairedListView = (ListView) findViewById(R.id.non_paired_device_list);
 
             if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_STARTED)) {
                 Log.d("SCAN", "スキャン開始");
@@ -81,13 +89,12 @@ public class DeviceListActivity extends ActionBarActivity {
                 foundDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if ((deviceName = foundDevice.getName()) != null) {
 
-                    if (!deviceList.containsKey(deviceName)) {
+                    if (nonPairedDevices.add(deviceName)) {
                         if (foundDevice.getBondState() != BluetoothDevice.BOND_BONDED) {
                             nonPairedDeviceAdapter.add(deviceName + "\n" + foundDevice.getAddress());
                             Log.d("SCAN", deviceName);
                         }
                     }
-                    deviceList.put(deviceName, foundDevice);
 
                 }
                 nonPairedListView.setAdapter(nonPairedDeviceAdapter);
