@@ -10,5 +10,6 @@
     <!-- メッセージ用 -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_device_list">DeviceListActivity</string>
 
 </resources>

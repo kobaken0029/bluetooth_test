@@ -33,6 +33,8 @@ public class MainActivity extends ActionBarActivity {
         if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (resultCode == Activity.RESULT_OK) {
                 UiUtils.showToast(this, "BluetoothをONにしてもらえました。");
+                startActivity(new Intent(this, DeviceListActivity.class));
+                finish();
             } else {
                 UiUtils.showToast(this, "BluetoothをONにしてもらえませんでした。");
             }
